@@ -9,7 +9,7 @@ namespace IdentitySample
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery.js"));
+                       "~/Scripts/DataTables/jquery.dataTables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,7 +26,15 @@ namespace IdentitySample
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/style.css",
+                      "~/Content/ionicons.min.css",
+                      "~/Content/site.css",
+                      "~/Content/DataTables/jquery.dataTables.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                       "~/Scripts/validate.js",
+                       "~/Scripts/easing.min.js",
+                       "~/Scripts/main.js"));
         }
     }
 }

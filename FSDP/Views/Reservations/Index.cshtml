@@ -1,0 +1,56 @@
+﻿@model IEnumerable<FSDP.DATA.EF.Reservation>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table data-table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerVehicle.Make)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReservationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerVehicle.Make)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable();
+        })
+    </script>
+}
