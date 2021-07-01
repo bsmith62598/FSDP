@@ -37,19 +37,25 @@ namespace FSDP.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Create
-        public ActionResult Create()
+        //GET: AdminCreate
+        [Authorize(Roles = "Admin, Employee")]
+        public ActionResult AdminCreate()
         {
-            string userID = User.Identity.GetUserId();
+            ViewBag.Owner = new SelectList(db.UserDetails, "UserID", "FullName");
+            return View();
+        }
 
+        // GET: Reservations/Create
+        public ActionResult Create(string Owner)
+        {
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
             if (User.IsInRole("Owner"))
             {
-                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == userID), "OwnerVehicleID", "MakeAndModel");
+                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "MakeAndModel");
             }
             if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles, "OwnerVehicleID", "MakeAndModel");
+                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "Make");
             }
             return View();
         }

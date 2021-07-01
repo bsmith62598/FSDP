@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "AdminCreate")
 </p>
 <table class="table data-table table-striped">
     <thead>
@@ -29,7 +29,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReservationDate)
+                    @Html.DisplayFor(modelItem => item.ReservationDate.Date, "ShortDateTime")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Location.LocationName)
@@ -47,10 +47,15 @@
     </tbody>
 </table>
 
+<p>
+    Date: 
+</p>
+
 @section scripts{
     <script>
         $(document).ready(function () {
             $(".data-table").DataTable();
+            responsive: true;
         })
     </script>
 }
