@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.CarPhoto)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Make)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Model)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarPhoto)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.RequestedRepairs)
@@ -29,22 +29,19 @@
         <th>
             @Html.DisplayNameFor(model => model.DateAdded)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserDetail.FirstName)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+            <img src="~/Content/Images/VehicleImages/t_@item.CarPhoto" alt="Car Photo" title="@item.CarPhoto" />
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Make)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarPhoto)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RequestedRepairs)
@@ -54,9 +51,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateAdded)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserDetail.FirstName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.OwnerVehicleID }) |

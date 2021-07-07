@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FSDP.DATA.EF;
 using Microsoft.AspNet.Identity;
+using FSDP.Utilities;
 
 namespace FSDP.Controllers
 {
@@ -52,10 +54,37 @@ namespace FSDP.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle)
+        public ActionResult Create([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
         {
             if (ModelState.IsValid)
             {
+
+                #region File Upload
+
+                string file = "NoImage.png";
+                if (carPhoto != null)
+                {
+                    file = carPhoto.FileName;
+                    string ext = file.Substring(file.LastIndexOf('.'));
+                    string[] goodExts = { ".jpeg", ".jpg", ".png", ".gif" };
+
+                    if (goodExts.Contains(ext.ToLower()) && carPhoto.ContentLength <= 4194304)
+                    {
+                        file = Guid.NewGuid() + ext;
+
+                        #region Resize Image
+                        string savePath = Server.MapPath("~/Content/Images/VehicleImages/");                        Image convertedImage = Image.FromStream(carPhoto.InputStream);                        int maxImageSize = 500;                        int maxThumbSize = 100;                        ImageUtility.ResizeImage(savePath, file, convertedImage, maxImageSize, maxThumbSize);                        #endregion
+
+                    }
+
+                    ownerVehicle.CarPhoto = file;
+                }
+
+                #endregion
+
+                ownerVehicle.OwnerID = User.Identity.GetUserId();
+                ownerVehicle.DateAdded = DateTime.Now;
+
                 db.OwnerVehicles.Add(ownerVehicle);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -86,10 +115,34 @@ namespace FSDP.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle)
+        public ActionResult Edit([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
         {
             if (ModelState.IsValid)
             {
+
+                #region File Upload
+
+                string file = "NoImage.png";
+                if (carPhoto != null)
+                {
+                    file = carPhoto.FileName;
+                    string ext = file.Substring(file.LastIndexOf('.'));
+                    string[] goodExts = { ".jpeg", ".jpg", ".png", ".gif" };
+
+                    if (goodExts.Contains(ext.ToLower()) && carPhoto.ContentLength <= 4194304)
+                    {
+                        file = Guid.NewGuid() + ext;
+
+                        #region Resize Image
+                        string savePath = Server.MapPath("~/Content/Images/VehicleImages/");                        Image convertedImage = Image.FromStream(carPhoto.InputStream);                        int maxImageSize = 500;                        int maxThumbSize = 100;                        ImageUtility.ResizeImage(savePath, file, convertedImage, maxImageSize, maxThumbSize);                        #endregion
+
+                    }
+
+                    ownerVehicle.CarPhoto = file;
+                }
+
+                #endregion
+
                 db.Entry(ownerVehicle).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

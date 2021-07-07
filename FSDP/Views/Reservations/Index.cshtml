@@ -6,10 +6,10 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "AdminCreate")
+<p class="text-center">
+    @Html.ActionLink("Create New", "AdminCreate", "Reservations", new { @id = "anchorP"})
 </p>
-<table class="table data-table table-striped">
+<table id="data-table" class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -47,14 +47,10 @@
     </tbody>
 </table>
 
-<p>
-    Date: 
-</p>
-
 @section scripts{
     <script>
         $(document).ready(function () {
-            $(".data-table").DataTable();
+            $("#data-table").DataTable();
             responsive: true;
         })
     </script>

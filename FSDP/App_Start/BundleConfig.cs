@@ -9,7 +9,6 @@ namespace IdentitySample
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                       "~/Scripts/DataTables/jquery.dataTables.js",
                        "~/Scripts/jquery-ui-1.12.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -27,16 +26,18 @@ namespace IdentitySample
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/DataTables/jquery.dataTables.css",
                       "~/Content/style.css",
                       "~/Content/ionicons.min.css",
                       "~/Content/site.css",
-                      "~/Content/DataTables/jquery.dataTables.min.css",
-                      "~/Content/themes/base/all.css"));
+                      "~/Content/themes/base/all.css",
+                      "~/Content/font-awesome.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                        "~/Scripts/validate.js",
                        "~/Scripts/easing.min.js",
-                       "~/Scripts/main.js"));
+                       "~/Scripts/main.js",
+                       "~/Scripts/DataTables/jquery.dataTables.min.js"));
         }
     }
 }

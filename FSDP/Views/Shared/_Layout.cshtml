@@ -8,6 +8,7 @@
     <!-- Favicons -->
     <link href="img/favicon.png" rel="icon">
     <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
@@ -37,7 +38,7 @@
 
                     @if (User.IsInRole("Employee") || User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Schedule", "Index", "Reservations")</li>@*TODO - Use DataTables for Reservations*@
+                        <li>@Html.ActionLink("Schedule", "Index", "Reservations")</li>
                     }
 
                     @if (User.IsInRole("Owner"))

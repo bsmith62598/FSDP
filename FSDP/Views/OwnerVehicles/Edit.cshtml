@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "OwnerVehicles", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -44,8 +44,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CarPhoto, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CarPhoto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CarPhoto, "", new { @class = "text-danger" })
+                <input type="file" name="carPhoto" />
+
+                @*@Html.EditorFor(model => model.CarPhoto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CarPhoto, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -64,14 +66,6 @@
                     @Html.EditorFor(model => model.IsActive)
                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                 </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateAdded, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateAdded, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateAdded, "", new { @class = "text-danger" })
             </div>
         </div>
 

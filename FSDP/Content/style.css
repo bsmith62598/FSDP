@@ -18,7 +18,7 @@
 body {
   background: #fff;
   margin: 0;
-  color: #444;
+  color: white;
   padding-top: 50px;
 }
 
@@ -34,7 +34,7 @@ p {
   font-weight: 300;
   font-size: 20px;
   line-height: 30px;
-  color: #666;
+  color: white;
   margin-top: 10px;
 }
 
@@ -135,6 +135,10 @@ hr {
   border-width: 2px;
 }
 
+.navbar-nav {
+    margin: 0px 0px !important;
+}
+
 /* Helpers */
 
 .theme {
@@ -181,7 +185,7 @@ hr {
 /* HEADER SECTION */
 
 #h {
-  background: url(../img/header-bg.jpg) no-repeat center top;
+  /*background: url() no-repeat center top;*/
   padding-top: 120px;
   text-align: center;
   background-attachment: relative;
@@ -200,7 +204,7 @@ hr {
 
 #h h1 {
   font-weight: 300;
-  color: white;
+  color: black;
   text-align: center;
   text-transform: uppercase;
 }
@@ -437,4 +441,51 @@ hr {
 
 .credits {
   color: #999;
+}
+
+
+/*Icons*/
+i {
+    color: #EF8452;
+}
+
+/*Tables*/
+table {
+    background-color: white !important;
+}
+
+thead {
+    color: black;
+}
+
+table td{
+    color: black;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: black;
+}
+
+#data-table_filter{
+    text-align: right !important;
+}
+
+#data-table_length{
+    text-align: right !important;
+}
+
+#data-table_paginate {
+    text-align: center;
+    color: #EF8452 !important;
+}
+
+.paginate_button {
+    padding: 10px;
+    color: #EF8452 !important;
+}
+
+#anchorP {
+    color: #EF8452 !important;
 }
