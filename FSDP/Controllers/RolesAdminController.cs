@@ -53,6 +53,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Roles/
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -61,6 +62,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Roles/Details/5
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Details(string id)
         {
@@ -88,6 +90,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Roles/Create
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -96,6 +99,7 @@ namespace IdentitySample.Controllers
 
         //
         // POST: /Roles/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RoleViewModel roleViewModel)
@@ -116,6 +120,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Roles/Edit/Admin
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
@@ -134,6 +139,7 @@ namespace IdentitySample.Controllers
 
         //
         // POST: /Roles/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
 
         [ValidateAntiForgeryToken]
@@ -151,6 +157,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Roles/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Delete(string id)
         {
@@ -168,6 +175,7 @@ namespace IdentitySample.Controllers
 
         //
         // POST: /Roles/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]

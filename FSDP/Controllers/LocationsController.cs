@@ -15,12 +15,14 @@ namespace FSDP.Controllers
         private FSDPEntities db = new FSDPEntities();
 
         // GET: Locations
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             return View(db.Locations.ToList());
         }
 
         // GET: Locations/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace FSDP.Controllers
         }
 
         // GET: Locations/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -44,6 +47,7 @@ namespace FSDP.Controllers
         // POST: Locations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LocationID,LocationName,Address,City,State,ZipCode,ReservationLimit")] Location location)
@@ -59,6 +63,7 @@ namespace FSDP.Controllers
         }
 
         // GET: Locations/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -76,6 +81,7 @@ namespace FSDP.Controllers
         // POST: Locations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "LocationID,LocationName,Address,City,State,ZipCode,ReservationLimit")] Location location)
@@ -90,6 +96,7 @@ namespace FSDP.Controllers
         }
 
         // GET: Locations/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,6 +112,7 @@ namespace FSDP.Controllers
         }
 
         // POST: Locations/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

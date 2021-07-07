@@ -15,13 +15,16 @@ namespace FSDP.Controllers
     {
         private FSDPEntities db = new FSDPEntities();
         // GET: Reservations
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult Index()
         {
+
             var reservations = db.Reservations.Include(r => r.Location).Include(r => r.OwnerVehicle);
             return View(reservations.ToList());
         }
 
         // GET: Reservations/Details/5
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -46,8 +49,14 @@ namespace FSDP.Controllers
         }
 
         // GET: Reservations/Create
+        [Authorize(Roles = "Admin, Employee, Owner")]
         public ActionResult Create(string Owner)
         {
+            if (User.IsInRole("Owner"))
+            {
+                Owner = User.Identity.GetUserId();
+            }
+
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
             if (User.IsInRole("Owner"))
             {
@@ -63,6 +72,7 @@ namespace FSDP.Controllers
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Employee, Owner")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReservationID,OwnerVehicleID,LocationID,ReservationDate")] Reservation reservation)
@@ -80,6 +90,7 @@ namespace FSDP.Controllers
         }
 
         // GET: Reservations/Edit/5
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -99,6 +110,7 @@ namespace FSDP.Controllers
         // POST: Reservations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReservationID,OwnerVehicleID,LocationID,ReservationDate")] Reservation reservation)
@@ -115,6 +127,7 @@ namespace FSDP.Controllers
         }
 
         // GET: Reservations/Delete/5
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -130,6 +143,7 @@ namespace FSDP.Controllers
         }
 
         // POST: Reservations/Delete/5
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

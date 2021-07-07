@@ -18,6 +18,7 @@ namespace FSDP.Controllers
         private FSDPEntities db = new FSDPEntities();
 
         // GET: OwnerVehicles
+        [Authorize(Roles = "Owner")]
         public ActionResult Index()
         {
             string userID = User.Identity.GetUserId();
@@ -28,6 +29,7 @@ namespace FSDP.Controllers
         }
 
         // GET: OwnerVehicles/Details/5
+        [Authorize(Roles = "Owner")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,6 +45,7 @@ namespace FSDP.Controllers
         }
 
         // GET: OwnerVehicles/Create
+        [Authorize(Roles = "Owner")]
         public ActionResult Create()
         {
             ViewBag.OwnerID = new SelectList(db.UserDetails, "UserID", "FirstName");
@@ -53,11 +56,12 @@ namespace FSDP.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Owner")]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
 
                 #region File Upload
 
@@ -88,13 +92,14 @@ namespace FSDP.Controllers
                 db.OwnerVehicles.Add(ownerVehicle);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            //}
 
             ViewBag.OwnerID = new SelectList(db.UserDetails, "UserID", "FirstName", ownerVehicle.OwnerID);
             return View(ownerVehicle);
         }
 
         // GET: OwnerVehicles/Edit/5
+        [Authorize(Roles = "Owner")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -113,6 +118,7 @@ namespace FSDP.Controllers
         // POST: OwnerVehicles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
@@ -152,6 +158,7 @@ namespace FSDP.Controllers
         }
 
         // GET: OwnerVehicles/Delete/5
+        [Authorize(Roles = "Owner")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -167,6 +174,7 @@ namespace FSDP.Controllers
         }
 
         // POST: OwnerVehicles/Delete/5
+        [Authorize(Roles = "Owner")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
