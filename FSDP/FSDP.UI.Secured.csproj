@@ -621,6 +621,7 @@
     <Content Include="Views\Reservations\AdminCreate.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ShortDateTime.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Reservations\LocationSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

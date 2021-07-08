@@ -36,20 +36,25 @@
                     <li>@Html.ActionLink("Our History", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
+                    }
+
                     @if (User.IsInRole("Employee") || User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Schedule", "Index", "Reservations")</li>
+                        <li>@Html.ActionLink("Schedule", "LocationSelect", "Reservations")</li>
                     }
 
                     @if (User.IsInRole("Owner"))
                     {
                         <li>@Html.ActionLink("Book an Appointment", "Create", "Reservations")</li>
                         <li>@Html.ActionLink("My Vehicles", "Index", "OwnerVehicles")</li>
-                        }
+                    }
 
-                        <li>@Html.Partial("_LoginPartial")</li>
+                    <li>@Html.Partial("_LoginPartial")</li>
 
-                    </ul>
+                </ul>
             </div>
         </div>
     </div>

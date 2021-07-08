@@ -14,15 +14,22 @@ namespace FSDP.Controllers
     public class ReservationsController : Controller
     {
         private FSDPEntities db = new FSDPEntities();
-        // GET: Reservations
-        [Authorize(Roles = "Admin, Employee")]
-        public ActionResult Index()
-        {
 
-            var reservations = db.Reservations.Include(r => r.Location).Include(r => r.OwnerVehicle);
-            return View(reservations.ToList());
+        public ActionResult LocationSelect()
+        {
+            ViewBag.CurrentLocation = new SelectList(db.Locations, "LocationID", "LocationName");
+            return View();
         }
 
+        // GET: Reservations
+        [Authorize(Roles = "Admin, Employee")]
+        public ActionResult Index(int? CurrentLocation)
+        {
+
+            var reservations = db.Reservations.Include(r => r.Location).Where(r => r.Location.LocationID == CurrentLocation).Include(r => r.OwnerVehicle);
+            return View(reservations.ToList());
+        }
+        
         // GET: Reservations/Details/5
         [Authorize(Roles = "Admin, Employee")]
         public ActionResult Details(int? id)
@@ -57,7 +64,16 @@ namespace FSDP.Controllers
                 Owner = User.Identity.GetUserId();
             }
 
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            if (User.IsInRole("Employee") || User.IsInRole("Owner"))
+            {
+                ViewBag.LocationID = new SelectList(db.Locations.Where(o => o.Reservations.Count < o.ReservationLimit), "LocationID", "LocationName");
+            }
+
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            }
+            
             if (User.IsInRole("Owner"))
             {
                 ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "MakeAndModel");
@@ -79,9 +95,10 @@ namespace FSDP.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("LocationSelect");
             }
 
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", reservation.LocationID);
@@ -119,7 +136,7 @@ namespace FSDP.Controllers
             {
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("LocationSelect");
             }
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", reservation.LocationID);
             ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles, "OwnerVehicleID", "Make", reservation.OwnerVehicleID);
@@ -151,7 +168,7 @@ namespace FSDP.Controllers
             Reservation reservation = db.Reservations.Find(id);
             db.Reservations.Remove(reservation);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("LocationSelect");
         }
 
         protected override void Dispose(bool disposing)

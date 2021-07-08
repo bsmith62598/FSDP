@@ -13,6 +13,8 @@ namespace IdentitySample.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private FSDPEntities db = new FSDPEntities();
+
         public AccountController()
         {
         }
@@ -138,6 +140,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.HomeStore = new SelectList(db.UserDetails.Select(u => u.Location), "LocationID", "LocationName");
             return View();
         }
 
@@ -146,7 +149,7 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, int? HomeStore)
         {
             if (ModelState.IsValid)
             {
@@ -159,11 +162,14 @@ namespace IdentitySample.Controllers
                     newUserDeets.UserID = user.Id;
                     newUserDeets.FirstName = model.FirstName;
                     newUserDeets.LastName = model.LastName;
+                    newUserDeets.HomeStore = model.HomeStore;
 
                     FSDPEntities db = new FSDPEntities();
                     db.UserDetails.Add(newUserDeets);
                     db.SaveChanges();
                     #endregion
+
+                    ViewBag.HomeStore = new SelectList(db.UserDetails.Select(u => u.Location), "LocationID", "LocationName");
 
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

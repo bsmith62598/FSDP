@@ -85,6 +85,8 @@ namespace IdentitySample.Models
 
         [Required]
         public string LastName { get; set; }
+        
+        public int HomeStore { get; set; }
     }
 
     public class ResetPasswordViewModel

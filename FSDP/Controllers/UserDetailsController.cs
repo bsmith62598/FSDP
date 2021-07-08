@@ -38,6 +38,7 @@ namespace FSDP.Controllers
         // GET: UserDetails/Create
         public ActionResult Create()
         {
+            ViewBag.HomeStore = new SelectList(db.Locations, "LocationID", "LocationName");
             return View();
         }
 
@@ -46,7 +47,7 @@ namespace FSDP.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,FirstName,LastName")] UserDetail userDetail)
+        public ActionResult Create([Bind(Include = "UserID,FirstName,LastName,HomeStore")] UserDetail userDetail)
         {
             if (ModelState.IsValid)
             {

@@ -4,49 +4,48 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Schedule</h2>
 
-<p class="text-center">
-    @Html.ActionLink("Create New", "AdminCreate", "Reservations", new { @id = "anchorP"})
-</p>
-<table id="data-table" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ReservationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location.LocationName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerVehicle.Make)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <p class="text-center">
+        @Html.ActionLink("Create New", "AdminCreate", "Reservations", new { @id = "anchorP" })
+    </p>
+    <table id="data-table" class="table table-bordered">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReservationDate.Date, "ShortDateTime")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerVehicle.Make)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReservationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location.LocationName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OwnerVehicle.Make)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReservationDate.Date, "ShortDateTime")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location.LocationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerVehicle.Make)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 @section scripts{
     <script>
         $(document).ready(function () {
