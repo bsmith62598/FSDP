@@ -15,6 +15,15 @@ namespace FSDP.Controllers
     {
         private FSDPEntities db = new FSDPEntities();
 
+
+        public ActionResult OwnerReservation()
+        {
+            string userID = User.Identity.GetUserId();
+            var reservations = db.Reservations.Where(r => r.IsComplete == false).Include(r => r.Location).Include(r => r.OwnerVehicle).Where(r => r.OwnerVehicle.OwnerID == userID);
+            return View(reservations.ToList());
+        }
+
+
         public ActionResult LocationSelect()
         {
             ViewBag.CurrentLocation = new SelectList(db.Locations, "LocationID", "LocationName");
@@ -26,7 +35,7 @@ namespace FSDP.Controllers
         public ActionResult Index(int? CurrentLocation)
         {
 
-            var reservations = db.Reservations.Include(r => r.Location).Where(r => r.Location.LocationID == CurrentLocation).Include(r => r.OwnerVehicle);
+            var reservations = db.Reservations.Where(r => r.IsComplete == false).Include(r => r.Location).Where(r => r.Location.LocationID == CurrentLocation).Include(r => r.OwnerVehicle);
             return View(reservations.ToList());
         }
         
@@ -95,10 +104,17 @@ namespace FSDP.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                reservation.IsComplete = false;
                 db.Reservations.Add(reservation);
                 db.SaveChanges();
-                return RedirectToAction("LocationSelect");
+                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("LocationSelect");
+                }
+                else
+                {
+                    return RedirectToAction("OwnerReservation");
+                }
             }
 
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", reservation.LocationID);
@@ -130,10 +146,11 @@ namespace FSDP.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReservationID,OwnerVehicleID,LocationID,ReservationDate")] Reservation reservation)
+        public ActionResult Edit([Bind(Include = "ReservationID,OwnerVehicleID,LocationID,ReservationDate")] Reservation reservation, string RequestedRepairs)
         {
             if (ModelState.IsValid)
             {
+                reservation.IsComplete = false;
                 db.Entry(reservation).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("LocationSelect");
@@ -166,8 +183,19 @@ namespace FSDP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Reservation reservation = db.Reservations.Find(id);
-            db.Reservations.Remove(reservation);
+            //db.Reservations.Remove(reservation);
+            //db.SaveChanges();
+            #region Soft Delete
+            if (reservation.IsComplete.Equals(true))
+            {
+                reservation.IsComplete = false;
+            }
+            if (reservation.IsComplete.Equals(false))
+            {
+                reservation.IsComplete = true;
+            }
             db.SaveChanges();
+            #endregion
             return RedirectToAction("LocationSelect");
         }
 

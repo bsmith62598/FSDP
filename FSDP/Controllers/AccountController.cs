@@ -1,12 +1,14 @@
 ﻿using FSDP.DATA.EF;
 using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace IdentitySample.Controllers
 {
@@ -140,7 +142,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.HomeStore = new SelectList(db.UserDetails.Select(u => u.Location), "LocationID", "LocationName");
+            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
             return View();
         }
 
@@ -149,7 +151,7 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, int? HomeStore)
+        public async Task<ActionResult> Register(RegisterViewModel model, int? LocationID)
         {
             if (ModelState.IsValid)
             {
@@ -157,19 +159,22 @@ namespace IdentitySample.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    FSDPEntities db = new FSDPEntities();
+                    ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+
                     #region Custom User Details
                     UserDetail newUserDeets = new UserDetail();
                     newUserDeets.UserID = user.Id;
                     newUserDeets.FirstName = model.FirstName;
                     newUserDeets.LastName = model.LastName;
-                    newUserDeets.HomeStore = model.HomeStore;
+                    newUserDeets.HomeStore = LocationID;
 
-                    FSDPEntities db = new FSDPEntities();
                     db.UserDetails.Add(newUserDeets);
                     db.SaveChanges();
                     #endregion
 
-                    ViewBag.HomeStore = new SelectList(db.UserDetails.Select(u => u.Location), "LocationID", "LocationName");
+                    UserManager.AddToRole(user.Id, "Owner");
+                    
 
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

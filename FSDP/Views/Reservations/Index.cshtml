@@ -13,6 +13,9 @@
         <thead>
             <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.OwnerVehicle.CarPhoto)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.ReservationDate)
                 </th>
                 <th>
@@ -29,6 +32,9 @@
             {
                 <tr>
                     <td>
+                        <img src="~/Content/Images/VehicleImages/t_@item.OwnerVehicle.CarPhoto" alt="Car Photo" title="@item.OwnerVehicle.CarPhoto" />
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.ReservationDate.Date, "ShortDateTime")
                     </td>
                     <td>
@@ -40,7 +46,7 @@
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
+                        @Html.ActionLink("Complete", "Delete", new { id = item.ReservationID })
                     </td>
                 </tr>
             }

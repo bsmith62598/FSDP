@@ -18,7 +18,7 @@ namespace FSDP.Controllers
         private FSDPEntities db = new FSDPEntities();
 
         // GET: OwnerVehicles
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner, Admin")]
         public ActionResult Index()
         {
             string userID = User.Identity.GetUserId();
@@ -29,7 +29,7 @@ namespace FSDP.Controllers
         }
 
         // GET: OwnerVehicles/Details/5
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner, Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -99,7 +99,7 @@ namespace FSDP.Controllers
         }
 
         // GET: OwnerVehicles/Edit/5
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -112,6 +112,12 @@ namespace FSDP.Controllers
                 return HttpNotFound();
             }
             ViewBag.OwnerID = new SelectList(db.UserDetails, "UserID", "FirstName", ownerVehicle.OwnerID);
+
+            if (User.IsInRole("Admin"))
+            {
+                return View("AdminEdit");
+            }
+
             return View(ownerVehicle);
         }
 

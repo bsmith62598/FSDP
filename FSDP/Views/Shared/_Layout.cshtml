@@ -49,6 +49,7 @@
                     @if (User.IsInRole("Owner"))
                     {
                         <li>@Html.ActionLink("Book an Appointment", "Create", "Reservations")</li>
+                        <li>@Html.ActionLink("My Appointments", "OwnerReservation", "Reservations")</li>
                         <li>@Html.ActionLink("My Vehicles", "Index", "OwnerVehicles")</li>
                     }
 
