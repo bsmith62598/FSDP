@@ -351,6 +351,7 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\Images\SiteImages\car-1245786_1280.jpg" />
     <Content Include="Content\Images\SiteImages\plate-1034711_2700.jpg" />
     <Content Include="Content\Images\SiteImages\workshop-1719872_1280.jpg" />
     <Content Include="Content\ionicons.min.css" />

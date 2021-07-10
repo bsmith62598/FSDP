@@ -98,6 +98,21 @@ namespace FSDP.Controllers
             return View(ownerVehicle);
         }
 
+        //Get: Admin Edit
+        public ActionResult AdminEdit (int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OwnerVehicle ownerVehicle = db.OwnerVehicles.Find(id);
+            if (ownerVehicle == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ownerVehicle);
+        }
+
         // GET: OwnerVehicles/Edit/5
         [Authorize(Roles = "Owner, Admin")]
         public ActionResult Edit(int? id)
@@ -115,7 +130,7 @@ namespace FSDP.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                return View("AdminEdit");
+                return View("AdminEdit", ownerVehicle);
             }
 
             return View(ownerVehicle);
@@ -124,11 +139,18 @@ namespace FSDP.Controllers
         // POST: OwnerVehicles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
         {
+            if (User.IsInRole("Admin"))
+            {
+                db.Entry(ownerVehicle).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("LocationSelect", "Reservations");
+            }
+
             if (ModelState.IsValid)
             {
 
