@@ -60,9 +60,6 @@ namespace FSDP.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "OwnerVehicleID,Make,Model,OwnerID,CarPhoto,RequestedRepairs,IsActive,DateAdded")] OwnerVehicle ownerVehicle, HttpPostedFileBase carPhoto)
         {
-            //if (ModelState.IsValid)
-            //{
-
                 #region File Upload
 
                 string file = "NoImage.png";
@@ -92,10 +89,6 @@ namespace FSDP.Controllers
                 db.OwnerVehicles.Add(ownerVehicle);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            //}
-
-            ViewBag.OwnerID = new SelectList(db.UserDetails, "UserID", "FirstName", ownerVehicle.OwnerID);
-            return View(ownerVehicle);
         }
 
         //Get: Admin Edit

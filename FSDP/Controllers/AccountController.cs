@@ -170,17 +170,16 @@ namespace IdentitySample.Controllers
                     newUserDeets.HomeStore = LocationID;
 
                     db.UserDetails.Add(newUserDeets);
-                    db.SaveChanges();
                     #endregion
 
                     UserManager.AddToRole(user.Id, "Owner");
                     
+                    db.SaveChanges();
 
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                    LoginViewModel newUserModel = new LoginViewModel();
+                    newUserModel.Email = model.Email;
+                    newUserModel.Password = model.Password;
+                    return await Login(newUserModel, "/");
                 }
                 AddErrors(result);
             }

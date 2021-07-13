@@ -15,7 +15,7 @@ namespace FSDP.Controllers
     {
         private FSDPEntities db = new FSDPEntities();
 
-
+        [Authorize(Roles = "Owner")]
         public ActionResult OwnerReservation()
         {
             string userID = User.Identity.GetUserId();
@@ -23,7 +23,7 @@ namespace FSDP.Controllers
             return View(reservations.ToList());
         }
 
-
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult LocationSelect()
         {
             ViewBag.CurrentLocation = new SelectList(db.Locations, "LocationID", "LocationName");
@@ -71,9 +71,12 @@ namespace FSDP.Controllers
             if (User.IsInRole("Owner"))
             {
                 Owner = User.Identity.GetUserId();
+                var HomeStore = db.UserDetails.Select(o => o.HomeStore).FirstOrDefault();
+                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "MakeAndModel");
+                ViewBag.LocationID = new SelectList(db.Locations.Where(o => o.LocationID == HomeStore && o.Reservations.Count < o.ReservationLimit), "LocationID", "LocationName");
             }
 
-            if (User.IsInRole("Employee") || User.IsInRole("Owner"))
+            if (User.IsInRole("Employee"))
             {
                 ViewBag.LocationID = new SelectList(db.Locations.Where(o => o.Reservations.Count < o.ReservationLimit), "LocationID", "LocationName");
             }
@@ -82,11 +85,7 @@ namespace FSDP.Controllers
             {
                 ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
             }
-            
-            if (User.IsInRole("Owner"))
-            {
-                ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "MakeAndModel");
-            }
+
             if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
                 ViewBag.OwnerVehicleID = new SelectList(db.OwnerVehicles.Where(o => o.OwnerID == Owner), "OwnerVehicleID", "Make");

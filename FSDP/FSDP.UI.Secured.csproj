@@ -351,8 +351,12 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\Images\SiteImages\car-1245786_1280.jpg" />
+    <Content Include="Content\Images\SiteImages\christian-buehner-DItYlc26zVI-unsplash.jpg" />
+    <Content Include="Content\Images\SiteImages\christian-buehner-DItYlc26zVI-unsplashResize.jpg" />
+    <Content Include="Content\Images\SiteImages\meritt-thomas-aoQ4DYZLE_E-unsplash.jpg" />
     <Content Include="Content\Images\SiteImages\plate-1034711_2700.jpg" />
+    <Content Include="Content\Images\SiteImages\testBackground2.jpg" />
+    <Content Include="Content\Images\SiteImages\TF-headshot.jpg" />
     <Content Include="Content\Images\SiteImages\workshop-1719872_1280.jpg" />
     <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\style.css" />

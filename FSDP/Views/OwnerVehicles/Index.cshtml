@@ -9,55 +9,52 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CarPhoto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Make)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Model)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequestedRepairs)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateAdded)
-        </th>
-        <th></th>
-    </tr>
+<div class="container">
+    <table class="table table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CarPhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedRepairs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <img src="~/Content/Images/VehicleImages/t_@item.CarPhoto" alt="Car Photo" title="@item.CarPhoto" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Make)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequestedRepairs)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateAdded)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OwnerVehicleID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OwnerVehicleID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OwnerVehicleID })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Content/Images/VehicleImages/t_@item.CarPhoto" alt="Car Photo" title="@item.CarPhoto" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Make)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestedRepairs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAdded)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OwnerVehicleID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OwnerVehicleID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OwnerVehicleID })
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
+</div>
